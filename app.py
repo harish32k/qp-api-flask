@@ -1,13 +1,15 @@
 from flask import Flask
 from flask_restful import Api
-from resources.imgdat import Imgdat
 from resources.qp_request import QpRequest #to interact with requests table
+from resources.admin_timetable import AdminTimeTable
+from resources.admin_false_select import AdminFalseSelect
 
 app = Flask(__name__)
 #initialize api
 api = Api(app)
-#api.add_resource(Imgdat,'/img')
 api.add_resource(QpRequest,'/qpreq')
+api.add_resource(AdminTimeTable,'/admin-timetable')
+api.add_resource(AdminFalseSelect,'/admin-false-select')
 
 @app.route('/')
 def home():

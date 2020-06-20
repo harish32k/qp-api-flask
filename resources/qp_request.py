@@ -25,16 +25,15 @@ class QpRequest(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument('request_no', type=int, required=True, help="request_no cannot be left blank!")
         parser.add_argument('image', type=str, required=True, help="image cannot be left blank!")
-        parser.add_argument('select_status', type=str, required=False, default = 0)
         data = parser.parse_args()
         
         #creating a tuple of values to be inserted because a formatted string is used
         #here its useful to avoid SQL syntax errors while inserting BLOB value into table
-        vals_tuple = (data['request_no'], convertToBlob(data['image']), data['select_status'])
+        vals_tuple = (data['request_no'], convertToBlob(data['image']))
         #convertToBlob is used to convert base64 string to BLOB data
 
         qstr = f""" INSERT INTO requests (request_no, image)
-                    values (%s, %s, %s); """
+                    values (%s, %s); """
         
         try:
             query(qstr,args_tuple=vals_tuple)
