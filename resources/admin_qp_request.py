@@ -6,8 +6,13 @@ import pymysql
 def convertToBlob(value):
     return base64.b64decode(value.encode('utf-8'))
 
-#QpRequest class is for the user to interact with the requests table.
-class QpRequest(Resource):
+"""
+Using the resource in this module, admin can insert an image with select_status = 1 or 0
+the default value for select_status is 0 if not sent in the request.
+"""
+
+#AdminQpRequest class is for the admin to interact with the requests table.
+class AdminQpRequest(Resource):
     
     def get(self):
         parser = reqparse.RequestParser()
@@ -26,15 +31,15 @@ class QpRequest(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument('request_no', type=int, required=True, help="request_no cannot be left blank!")
         parser.add_argument('image', type=str, required=True, help="image cannot be left blank!")
+        parser.add_argument('select_status', type=int, required=False, default = 0)
         data = parser.parse_args()
-        
         #creating a tuple of values to be inserted because a formatted string is used
         #here its useful to avoid SQL syntax errors while inserting BLOB value into table
-        vals_tuple = (data['request_no'], convertToBlob(data['image']))
+        vals_tuple = (data['request_no'], convertToBlob(data['image']),data['select_status'] )
         #convertToBlob is used to convert base64 string to BLOB data
 
-        qstr = f""" INSERT INTO requests (request_no, image)
-                    values (%s, %s); """
+        qstr = f""" INSERT INTO requests (request_no, image, select_status)
+                    values (%s, %s, %s); """
         
         try:
             query(qstr,args_tuple=vals_tuple)

@@ -36,13 +36,13 @@ class AdminTimeTable(Resource):
         
         try:
             query(qstr)
-        except pymysql.err.InternalError as e:
+        except (pymysql.err.InternalError, pymysql.err.ProgrammingError, pymysql.err.IntegrityError) as e:
             return {
-                "message" : "MySQL Internal server error: " + str(e)
+                "message" : "MySQL error: " + str(e)
             }, 500
-        except:
+        except Exception as e:
             return {
-                "message" : "There was an error connecting while inserting to the timetable table. Check the fields."
+                "message" : "There was an error connecting to the requests table while inserting." + str(e)
             }, 500
         
         return {
