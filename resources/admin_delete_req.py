@@ -34,5 +34,5 @@ class AdminDeleteReq(Resource):
             }, 500
         
         return {
-            "message" : "Succesfully inserted"
+            "message" : "Succesfully deleted."
         }, 200
