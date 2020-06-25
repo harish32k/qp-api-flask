@@ -2,6 +2,7 @@ from flask_restful import Resource, reqparse
 from db import query
 import base64
 import pymysql
+from flask_jwt_extended import jwt_required
 
 def convertToBlob(value):
     return base64.b64decode(value.encode('utf-8'))
@@ -14,6 +15,7 @@ The admin has to send just the request_no and the image.
 #AdminQpRequest class is for the admin to interact with the requests table.
 class AdminQpRequest(Resource):
     
+    @jwt_required
     def get(self):
         parser = reqparse.RequestParser()
         parser.add_argument('r_id', type=int, help="r_id cannot be left blank!")
@@ -27,6 +29,7 @@ class AdminQpRequest(Resource):
                 "message" : "There was an error connecting to the requests table while retrieving."
             }, 500
 
+    @jwt_required
     def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument('request_no', type=int, required=True, help="request_no cannot be left blank!")

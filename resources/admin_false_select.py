@@ -1,7 +1,7 @@
 from flask_restful import Resource, reqparse
 from db import query
 import pymysql
-
+from flask_jwt_extended import jwt_required
 """
 This module is used to retrieve the data 
 for all the request_no's which have a false or a 0 select_status.
@@ -12,6 +12,7 @@ for those rows where select_status = 0
 #AdminFalseSelect class is to interact with the requests table.
 class AdminFalseSelect(Resource):
     
+    @jwt_required
     def get(self):
         
         #create query string

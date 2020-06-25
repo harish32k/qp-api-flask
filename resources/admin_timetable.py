@@ -1,9 +1,12 @@
 from flask_restful import Resource, reqparse
 import pymysql
+import db
+from flask_jwt_extended import jwt_required
 
 #AdminTimeTable class is to interact with the Timetable table.
 class AdminTimeTable(Resource):
     
+    @jwt_required
     def get(self):
         parser = reqparse.RequestParser()
         parser.add_argument('request_no', type=int, help="request_no cannot be left blank!")
@@ -11,12 +14,13 @@ class AdminTimeTable(Resource):
         #create query string
         qstr = f""" SELECT * FROM timetable where request_no = { data['request_no'] };"""
         try:
-            return query(qstr)
+            return db.query(qstr)
         except:
             return {
                 "message" : "There was an error connecting to the timetable table while retrieving."
             }, 500
 
+    @jwt_required
     def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument('b_id', type=int, required=True, help="b_id cannot be left blank!")

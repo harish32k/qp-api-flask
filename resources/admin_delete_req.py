@@ -1,6 +1,8 @@
 from flask_restful import Resource, reqparse
 from db import query
 import pymysql
+from flask_jwt_extended import jwt_required
+
 
 """ 
 The resource in this module is used to delete all the entries(requests) in the requests table 
@@ -10,7 +12,8 @@ other than the one with the same 'request_no' having a particular 'r_id'
 
 #AdminDeleteReq class is to interact with the requests table.
 class AdminDeleteReq(Resource):
-
+    
+    @jwt_required
     def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument('request_no', type=int, required=True, help="request_no cannot be left blank!")
