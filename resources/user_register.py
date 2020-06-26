@@ -52,13 +52,17 @@ class UserRegister(Resource):
 
         try:
             query(qstr, connect_db="User")
-        except (pymysql.err.InternalError, pymysql.err.ProgrammingError, pymysql.err.IntegrityError) as e:
+        # except (pymysql.err.InternalError, pymysql.err.ProgrammingError, pymysql.err.IntegrityError) as e:
+        #     return {
+        #         "message" : "MySQL error: " + str(e)
+        #     }, 500
+        # except Exception as e:
+        #     return {
+        #         "message" : "Cannot create a user." + str(e)
+        #     }, 500
+        except:
             return {
-                "message" : "MySQL error: " + str(e)
-            }, 500
-        except Exception as e:
-            return {
-                "message" : "Cannot create a user." + str(e)
+                "message" : "Cannot create the user."
             }, 500
         
         return {

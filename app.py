@@ -11,6 +11,7 @@ from resources.admin_reqno_details import AdminReqNoDetails
 from resources.admin_delete_req import AdminDeleteReq
 from resources.admin_timetable_update import AdminTimeTableUpdate
 from resources.admin_timetable_delete import AdminTimeTableDelete
+from resources.admin_get_subjects import AdminGetSubjects
 
 #user part
 from resources.get_subjects import GetSubjects
@@ -40,6 +41,7 @@ api.add_resource(AdminReqNoDetails,'/admin-reqno-details') #for admin to get det
 api.add_resource(AdminDeleteReq,'/admin-delete-req')
 api.add_resource(AdminTimeTableUpdate,'/admin-timetable-update') #update a timetable, send the same fields provided while uploading
 api.add_resource(AdminTimeTableDelete,'/admin-timetable-delete') #delete a timetable, with the request_no
+api.add_resource(AdminGetSubjects,'/admin-get-subjects') #retrieve all subjects 
 
 #user endpoints
 api.add_resource(GetSubjects, '/get-subjects')
