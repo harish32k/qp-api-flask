@@ -1,6 +1,6 @@
 from flask_restful import Resource, reqparse
 import pymysql
-import db
+from db import connectToHost
 from flask_jwt_extended import jwt_required
 
 #AdminTimeTable class is to interact with the Timetable table.
@@ -20,14 +20,14 @@ class AdminTimeTableUpdate(Resource):
         parser.add_argument('year', type=int, required=True, help="year cannot be left blank!")
         parser.add_argument('sem_no', type=int, required=True, help="sem_no cannot be left blank!")
         data = parser.parse_args()
-        # a transaction is made, so not connecting from db.py module.
+
+        # a transaction is made, so not using query function from db module
+        # we use connectToHost function from db module and commit explicitly
+        # the query function from db module commits for each query which is not desirable in 
+        # a transaction sequence as follows.
         # here we execute several queries then commit.
         try:
-            connection = pymysql.connect(host='localhost',
-                                        user='harish',
-                                        password='',
-                                        db='testapi',
-                                        cursorclass=pymysql.cursors.DictCursor)
+            connection = connectToHost()
             
             #start connection, create cursor and execute query from cursor
             connection.begin()

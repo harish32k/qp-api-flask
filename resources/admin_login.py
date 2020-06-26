@@ -12,7 +12,7 @@ class Admin():
 
     @classmethod
     def getAdminByUname(cls,uname):
-        result=query(f"""SELECT uname,password FROM admin WHERE uname='{uname}'""",return_json=False)
+        result=query(f"""SELECT uname,password FROM admins WHERE uname='{uname}'""",return_json=False)
         if len(result)>0: return Admin(result[0]['uname'],result[0]['password'])
         return None
 

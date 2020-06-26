@@ -11,10 +11,10 @@ class QpRequest(Resource):
     
     def get(self):
         parser = reqparse.RequestParser()
-        parser.add_argument('r_id', type=int, help="r_id cannot be left blank!")
+        parser.add_argument('request_no', type=int, help="request_no cannot be left blank!")
         data = parser.parse_args()
         #create query string
-        qstr = f""" SELECT * FROM requests where r_id = { data['r_id'] };"""
+        qstr = f""" SELECT * FROM requests where request_no = { data['request_no'] } AND select_status = 1;"""
         try:
             return query(qstr)
         except:

@@ -12,7 +12,10 @@ class User():
 
     @classmethod
     def getUserByUname(cls,uname):
-        result=query(f"""SELECT uname,password FROM user WHERE uname='{uname}'""",return_json=False)
+        result=query(f"""SELECT uname,password FROM users WHERE uname='{uname}'""", 
+        return_json=False, 
+        connect_db='User')
+        
         if len(result)>0: return User(result[0]['uname'],result[0]['password'])
         return None
 

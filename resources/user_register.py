@@ -13,22 +13,24 @@ class UserRegister(Resource):
         parser.add_argument('uname', type=str, required=True, help="uname cannot be left blank!")
         parser.add_argument('password', type=str, required=True, help="password cannot be left blank!")
         parser.add_argument('rno', type=str, required=True, help="rno cannot be left blank!")
+        parser.add_argument('b_id', type=str, required=True, help="b_id cannot be left blank!")
+        parser.add_argument('sem_no', type=str, required=True, help="sem_no cannot be left blank!")
         data = parser.parse_args()
         
         try:
             qstr = f""" 
-            SELECT uname from user where uname = "{ data['uname'] }";
+            SELECT uname from users where uname = "{ data['uname'] }";
             """
-            usersWithUname = query(qstr, return_json=False)
+            usersWithUname = query(qstr, return_json=False, connect_db='User')
             
             qstr = f""" 
-            SELECT uname from user where rno = "{ data['rno'] }";
+            SELECT uname from users where rno = "{ data['rno'] }";
             """
-            usersWithRoll = query(qstr, return_json=False)
+            usersWithRoll = query(qstr, return_json=False, connect_db='User')
         
         except Exception as e:
             return {
-                "message" : "There was an error connecting to the User table while checking for an existing user."  + str(e)
+                "message" : "There was an error connecting to the Users table while checking for an existing user."  + str(e)
             }, 500
 
         if len(usersWithUname)>0:
@@ -42,17 +44,21 @@ class UserRegister(Resource):
             }, 400
 
 
-        qstr = f""" INSERT INTO user values("{ data['uname'] }", "{ data['password'] }", "{ data['rno'] }"); """
+        qstr = f""" INSERT INTO users values("{ data['uname'] }", 
+        "{ data['password'] }", 
+        "{ data['rno'] }", 
+        "{ data['b_id'] }", 
+        "{ data['sem_no'] }" ); """
 
         try:
-            query(qstr)
+            query(qstr, connect_db="User")
         except (pymysql.err.InternalError, pymysql.err.ProgrammingError, pymysql.err.IntegrityError) as e:
             return {
                 "message" : "MySQL error: " + str(e)
             }, 500
         except Exception as e:
             return {
-                "message" : "There was an error connecting to the User table while inserting." + str(e)
+                "message" : "Cannot create a user." + str(e)
             }, 500
         
         return {

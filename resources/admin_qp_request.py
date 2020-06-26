@@ -1,5 +1,5 @@
 from flask_restful import Resource, reqparse
-from db import query
+from db import query, connectToHost
 import base64
 import pymysql
 from flask_jwt_extended import jwt_required
@@ -46,14 +46,13 @@ class AdminQpRequest(Resource):
         #creating a tuple of values to be inserted because a formatted string is used
         #here its useful to avoid SQL syntax errors while inserting BLOB value into table
 
-        # a transaction is made, so not connecting from db.py module.
+        # a transaction is made, so not using query function from db module
+        # we use connectToHost function from db module and commit explicitly
+        # the query function from db module commits for each query which is not desirable in 
+        # a transaction sequence as follows.
         # here we execute several queries then commit.
         try:
-            connection = pymysql.connect(host='localhost',
-                                    user='harish',
-                                    password='',
-                                    db='testapi',
-                                    cursorclass=pymysql.cursors.DictCursor)
+            connection = connectToHost()
 
             #start connection, create cursor and execute query from cursor
             connection.begin()
