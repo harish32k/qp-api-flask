@@ -59,3 +59,11 @@ def encode(data):
                 row[key] = getBase64Str(value)
                 
     return data
+
+
+"""
+if result of a query stored in r, which is non json, and if its a single row, then to obtain 
+use the following code
+val = list(r[0].values())[0]
+print(val)
+"""

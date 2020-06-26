@@ -5,16 +5,21 @@ from flask_jwt_extended import JWTManager
 #import resources
 from resources.qp_request import QpRequest
 from resources.admin_qp_request import AdminQpRequest
-from resources.admin_timetable import AdminTimeTable
+from resources.admin_timetable_create import AdminTimeTableCreate
 from resources.admin_false_select import AdminFalseSelect
 from resources.admin_reqno_details import AdminReqNoDetails 
 from resources.admin_delete_req import AdminDeleteReq
+from resources.admin_timetable_update import AdminTimeTableUpdate
+from resources.admin_timetable_delete import AdminTimeTableDelete
+
 #user part
 from resources.get_subjects import GetSubjects
 from resources.get_yearwise import GetYearwise
 
 #authentication
 from resources.admin_login import AdminLogin
+from resources.user_login import UserLogin
+from resources.user_register import UserRegister
 
 app = Flask(__name__)
 
@@ -27,12 +32,14 @@ api = Api(app)
 
 api.add_resource(QpRequest,'/qpreq') #for user to upload paper
 api.add_resource(AdminQpRequest,'/admin-qpreq')#for admin to upload paper with an optional feature to set select_status=1
-api.add_resource(AdminTimeTable,'/admin-timetable') #for admin to upload timetable
+api.add_resource(AdminTimeTableCreate,'/admin-timetable-create') #for admin to upload timetable
 api.add_resource(AdminFalseSelect,'/admin-false-select') #for admin to retrieve papers with false or 0 select_status
 api.add_resource(AdminReqNoDetails,'/admin-reqno-details') #for admin to get details for a particular request_no
 # the below one is for admin to delete question papers with select_status=0 having a particular request_no
 # other than the ones with same request_number and a particular r_id  
 api.add_resource(AdminDeleteReq,'/admin-delete-req')
+api.add_resource(AdminTimeTableUpdate,'/admin-timetable-update') #update a timetable, send the same fields provided while uploading
+api.add_resource(AdminTimeTableDelete,'/admin-timetable-delete') #delete a timetable, with the request_no
 
 #user endpoints
 api.add_resource(GetSubjects, '/get-subjects')
@@ -40,6 +47,8 @@ api.add_resource(GetYearwise, '/get-yearwise')
 
 #authentication endpoints
 api.add_resource(AdminLogin, '/admin-login')
+api.add_resource(UserLogin, '/user-login')
+api.add_resource(UserRegister, '/user-register')
 
 jwt=JWTManager(app)
 
