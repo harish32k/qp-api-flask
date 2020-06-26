@@ -71,7 +71,8 @@ def invalid_token_callback(error):
 #a route to test if the flask app is working.
 @app.route('/')
 def home():
-    return("<h1 style='font-family: sans-serif;'>This is an API to for the CBIT question paper management.</h1>")
+    return(f"""<h1 style="font-family: 'Palatino Linotype';">This is an API for the CBIT question paper management utility.</h1>
+                <p style="font-size:2em">Developed by Harish Akula</p>""")
 
 if __name__ == '__main__':
     app.run(debug=True)
