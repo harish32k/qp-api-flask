@@ -103,12 +103,26 @@ class AdminTimeTableCreate(Resource):
             cursor.execute(qstr)
 
             #for active_exams table
-            qstr = f"""SELECT request_no FROM (
-            SELECT '{data['b_id']}', 
-            '{did}', 
-            '{data['s_code']}', 
-            '{data['exam_type']}', 
-            '{data['subtype']}')"""
+            qstr = f"""SELECT subject_name FROM subject 
+            WHERE s_code = '{ data['s_code'] }';"""
+
+            cursor.execute(qstr)
+            result = cursor.fetchall()
+            sname = list(result[0].values())[0]
+
+            qstr = f"""SELECT branch_name FROM branch 
+            WHERE b_id = '{ data['b_id'] }';"""
+
+            cursor.execute(qstr)
+            result = cursor.fetchall()
+            bname = list(result[0].values())[0]
+            
+            qstr = f"""SELECT request_no FROM timetable WHERE 
+            b_id = '{ data['b_id'] }' AND 
+            s_code = '{ data['s_code'] }' AND 
+            exam_type = '{ data['exam_type'] }' AND 
+            subtype = '{ data['subtype'] }' AND 
+            d_id = '{ did }' ;"""
             
             cursor.execute(qstr)
             result = cursor.fetchall()
@@ -118,8 +132,8 @@ class AdminTimeTableCreate(Resource):
             INSERT INTO active_exams
             SELECT * FROM (
             SELECT '{ reqno }', 
-            '{ data['branch_name'] }' , 
-            '{ data['subject_name'] }' , 
+            '{ bname }' , 
+            '{ sname }' , 
             '{ data['exam_type'] }' , 
             '{ data['subtype'] }' , 
             '{ data['end_at'] }' , 
@@ -127,8 +141,8 @@ class AdminTimeTableCreate(Resource):
             '{ data['sem_no'] }' ) AS TEMP
             WHERE NOT EXISTS (
                 SELECT request_no FROM active_exams WHERE 
-                branch_name = '{ data['branch_name'] }' AND 
-                subject_name = '{ data['subject_name'] }' AND 
+                branch_name = '{ bname }' AND 
+                subject_name = '{ sname }' AND 
                 exam_type = '{ data['exam_type'] }' AND 
                 subtype = '{ data['subtype'] }' AND 
                 end_at = '{ data['end_at'] }' AND 

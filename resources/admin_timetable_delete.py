@@ -73,7 +73,6 @@ class AdminTimeTableDelete(Resource):
                 "message" : "There was an error connecting to the requests table while inserting." + str(e)
             }, 500
         
-        
         return {
             "message" : "Succesfully deleted."
         }, 200

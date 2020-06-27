@@ -103,7 +103,7 @@ class AdminTimeTableUpdate(Resource):
             update active_exams
 
             set branch_name = (SELECT branch_name from branch where b_id = '{ data['b_id'] }') ,
-            subject_name = '{ data['subject_name'] }' ,
+            subject_name = (SELECT subject_name from subject where s_code = '{ data['s_code'] }') ,
             exam_type = '{ data['exam_type'] }' ,
             subtype = '{ data['subtype'] }' ,
             end_at = '{ data['end_at'] }' ,
