@@ -13,7 +13,7 @@ for those rows where select_status = 0
 #AdminGetSubjects class is to interact with the subject table.
 class AdminGetSubjects(Resource):
     
-    @jwt_required
+    #@jwt_required
     def get(self):
         #create query string
         qstr = f""" SELECT * FROM subject; """
