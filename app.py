@@ -43,7 +43,8 @@ api.add_resource(AdminDeleteReq, '/admin-delete-req')
 api.add_resource(AdminTimeTableUpdate, '/admin-timetable-update') #update a timetable, send the same fields provided while uploading
 api.add_resource(AdminTimeTableDelete, '/admin-timetable-delete') #delete a timetable, with the request_no
 api.add_resource(AdminGetSubjects, '/admin-get-subjects') #retrieve all subjects 
-api.add_resource(AdminGetTimeTable, '/admin-get-timetable') #retrieve timetable from request_no
+# the below one is to retrieve timetable from from b_id, sem_no, exam_type, subtype, s_code, year fields
+api.add_resource(AdminGetTimeTable, '/admin-get-timetable') 
 
 #user endpoints
 api.add_resource(GetSubjects, '/get-subjects')
