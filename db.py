@@ -9,12 +9,16 @@ keyword argument 'args_tuple'. If args_tuple is not None, the query function is 
 the tuple of arguments to use in the query which is a format string.
 return_json is True by default , if set to false it returns a list of dictionaries for debugging"""
 
-def query(querystr, args_tuple=None, return_json=True, connect_db='testapi'):
+deafult_host = 'skillup-team-03.cxgok3weok8n.ap-south-1.rds.amazonaws.com'
+default_user = 'admin'
+default_password = 'coscskillup'
+default_db = 'Admin'
+def query(querystr, args_tuple=None, return_json=True, connect_db=default_db):
 
     #create connection object
-    connection = pymysql.connect(host='skillup-team-03.cxgok3weok8n.ap-south-1.rds.amazonaws.com',
-                                 user='admin',
-                                 password='coscskillup',
+    connection = pymysql.connect(host=deafult_host,
+                                 user=default_user,
+                                 password=default_password,
                                  db=connect_db,
                                  cursorclass=pymysql.cursors.DictCursor)
 
@@ -64,11 +68,11 @@ def encode(data):
                 
     return data
 
-def connectToHost(connect_db='testapi'):
+def connectToHost(connect_db=default_db):
     
-    return pymysql.connect(host='skillup-team-03.cxgok3weok8n.ap-south-1.rds.amazonaws.com',
-                            user='admin',
-                            password='coscskillup',
+    return pymysql.connect(host=deafult_host,
+                            user=default_user,
+                            password=default_password,
                             db=connect_db,
                             cursorclass=pymysql.cursors.DictCursor)
 
