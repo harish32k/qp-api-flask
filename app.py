@@ -17,6 +17,7 @@ from resources.admin_get_timetable import AdminGetTimeTable
 #user part
 from resources.get_subjects import GetSubjects
 from resources.get_yearwise import GetYearwise
+from resources.get_active_exams import GetActiveExams
 
 #authentication
 from resources.admin_login import AdminLogin
@@ -49,6 +50,7 @@ api.add_resource(AdminGetTimeTable, '/admin-get-timetable')
 #user endpoints
 api.add_resource(GetSubjects, '/get-subjects')
 api.add_resource(GetYearwise, '/get-yearwise')
+api.add_resource(GetActiveExams, '/get-active-exams')
 
 #authentication endpoints
 api.add_resource(AdminLogin, '/admin-login')
