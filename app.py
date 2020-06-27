@@ -12,6 +12,7 @@ from resources.admin_delete_req import AdminDeleteReq
 from resources.admin_timetable_update import AdminTimeTableUpdate
 from resources.admin_timetable_delete import AdminTimeTableDelete
 from resources.admin_get_subjects import AdminGetSubjects
+from resources.admin_get_timetable import AdminGetTimeTable
 
 #user part
 from resources.get_subjects import GetSubjects
@@ -31,17 +32,18 @@ app.config['JWT_SECRET_KEY'] = 'qp-cbit'
 #initialize api
 api = Api(app)
 
-api.add_resource(QpRequest,'/qpreq') #for user to upload paper
-api.add_resource(AdminQpRequest,'/admin-qpreq')#for admin to upload paper with an optional feature to set select_status=1
-api.add_resource(AdminTimeTableCreate,'/admin-timetable-create') #for admin to upload timetable
-api.add_resource(AdminFalseSelect,'/admin-false-select') #for admin to retrieve papers with false or 0 select_status
-api.add_resource(AdminReqNoDetails,'/admin-reqno-details') #for admin to get details for a particular request_no
+api.add_resource(QpRequest, '/qpreq') #for user to upload paper
+api.add_resource(AdminQpRequest, '/admin-qpreq')#for admin to upload paper with an optional feature to set select_status=1
+api.add_resource(AdminTimeTableCreate, '/admin-timetable-create') #for admin to upload timetable
+api.add_resource(AdminFalseSelect, '/admin-false-select') #for admin to retrieve papers with false or 0 select_status
+api.add_resource(AdminReqNoDetails, '/admin-reqno-details') #for admin to get details for a particular request_no
 # the below one is for admin to delete question papers with select_status=0 having a particular request_no
 # other than the ones with same request_number and a particular r_id  
-api.add_resource(AdminDeleteReq,'/admin-delete-req')
-api.add_resource(AdminTimeTableUpdate,'/admin-timetable-update') #update a timetable, send the same fields provided while uploading
-api.add_resource(AdminTimeTableDelete,'/admin-timetable-delete') #delete a timetable, with the request_no
-api.add_resource(AdminGetSubjects,'/admin-get-subjects') #retrieve all subjects 
+api.add_resource(AdminDeleteReq, '/admin-delete-req')
+api.add_resource(AdminTimeTableUpdate, '/admin-timetable-update') #update a timetable, send the same fields provided while uploading
+api.add_resource(AdminTimeTableDelete, '/admin-timetable-delete') #delete a timetable, with the request_no
+api.add_resource(AdminGetSubjects, '/admin-get-subjects') #retrieve all subjects 
+api.add_resource(AdminGetTimeTable, '/admin-get-timetable') #retrieve timetable from request_no
 
 #user endpoints
 api.add_resource(GetSubjects, '/get-subjects')

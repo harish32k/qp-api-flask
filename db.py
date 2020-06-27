@@ -2,6 +2,7 @@ from flask import jsonify
 from decimal import Decimal
 import pymysql
 import base64
+import datetime
 
 """args_tuple is used to avoid syntax errors while inserting BLOB data. A tuple of arguments is sent to the 
 keyword argument 'args_tuple'. If args_tuple is not None, the query function is given 
@@ -57,13 +58,15 @@ def encode(data):
                 row[key] = str(value)
             elif isinstance(value, bytes):
                 row[key] = getBase64Str(value)
+            elif isinstance(value,datetime.timedelta):
+                row[key] = str(value)
                 
     return data
 
-def connectToHost(connect_db='testapi'):
-    return pymysql.connect(host='localhost',
-                            user='harish',
-                            password='',
+def connectToHost(connect_db='Admin'):
+    return pymysql.connect(host=' skillup-team-03.cxgok3weok8n.ap-south-1.rds.amazonaws.com',
+                            user='admin',
+                            password='coscskillup',
                             db=connect_db,
                             cursorclass=pymysql.cursors.DictCursor)
 
