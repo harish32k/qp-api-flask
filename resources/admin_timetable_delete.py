@@ -48,6 +48,15 @@ class AdminTimeTableDelete(Resource):
             AND NOT EXISTS (select d_id from timetable where d_id = "{ del_did }");"""
             cursor.execute(qstr)
 
+            # deleting the request_no from active exams is taken care by on delete cascade
+            # the bottom commented code is if the deletion by on delete cascade is not working.
+            
+            # qstr = f"""
+            # DELETE FROM active_exams
+            # where request_no = '{ data['request_no'] }'
+            # """
+            # cursor.execute(qstr)
+
             connection.commit() #commit the changes made
             
             #close the cursor and connection

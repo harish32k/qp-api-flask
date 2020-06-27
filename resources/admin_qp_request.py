@@ -95,6 +95,12 @@ class AdminQpRequest(Resource):
 
             cursor.execute(qstr, vals_tuple)
 
+            # delete the corresponding entry from active_exams if paper is uploaded.
+            qstr = f""" DELETE FROM active_exams
+            WHERE request_no = { data['request_no'] }; """
+            cursor.execute(qstr)
+
+
             connection.commit() #commit the changes made
     
             #close the cursor and connection

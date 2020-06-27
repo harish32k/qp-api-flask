@@ -101,7 +101,44 @@ class AdminTimeTableCreate(Resource):
             """
 
             cursor.execute(qstr)
+
+            #for active_exams table
+            qstr = f"""SELECT request_no FROM (
+            SELECT '{data['b_id']}', 
+            '{did}', 
+            '{data['s_code']}', 
+            '{data['exam_type']}', 
+            '{data['subtype']}')"""
             
+            cursor.execute(qstr)
+            result = cursor.fetchall()
+            reqno = list(result[0].values())[0]
+            
+            qstr = f"""
+            INSERT INTO active_exams
+            SELECT * FROM (
+            SELECT '{ reqno }', 
+            '{ data['branch_name'] }' , 
+            '{ data['subject_name'] }' , 
+            '{ data['exam_type'] }' , 
+            '{ data['subtype'] }' , 
+            '{ data['end_at'] }' , 
+            '{ data['date'] }' , 
+            '{ data['sem_no'] }' ) AS TEMP
+            WHERE NOT EXISTS (
+                SELECT request_no FROM active_exams WHERE 
+                branch_name = '{ data['branch_name'] }' AND 
+                subject_name = '{ data['subject_name'] }' AND 
+                exam_type = '{ data['exam_type'] }' AND 
+                subtype = '{ data['subtype'] }' AND 
+                end_at = '{ data['end_at'] }' AND 
+                date = '{ data['date'] }' AND 
+                sem_no = '{ data['sem_no'] }'
+            ) LIMIT 1;
+            """
+
+            cursor.execute(qstr)
+                        
             connection.commit() #commit the changes made
             
             #close the cursor and connection

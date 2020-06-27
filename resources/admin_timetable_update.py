@@ -98,7 +98,22 @@ class AdminTimeTableUpdate(Resource):
                 """
                 cursor.execute(qstr)
 
-            
+            # for active_exams table
+            qstr = f"""
+            update active_exams
+
+            set branch_name = (SELECT branch_name from branch where b_id = '{ data['b_id'] }') ,
+            subject_name = '{ data['subject_name'] }' ,
+            exam_type = '{ data['exam_type'] }' ,
+            subtype = '{ data['subtype'] }' ,
+            end_at = '{ data['end_at'] }' ,
+            date = '{ data['date'] }' ,
+            sem_no = '{ data['sem_no'] }'
+
+            where request_no = "{ data['request_no'] }"
+            """
+            cursor.execute(qstr)
+
             connection.commit() #commit the changes made
             
             #close the cursor and connection

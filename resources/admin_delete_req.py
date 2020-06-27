@@ -46,6 +46,11 @@ class AdminDeleteReq(Resource):
             cursor.execute(qstr)
             connection.commit() #commit the changes made
             
+            # delete the corresponding entry from active_exams if paper is accepted.
+            qstr = f""" DELETE FROM active_exams
+            WHERE request_no = { data['request_no'] }; """
+            cursor.execute(qstr)
+
             #close the cursor and connection
             cursor.close()
             connection.close()
