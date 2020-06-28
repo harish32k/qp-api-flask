@@ -41,7 +41,7 @@ class AdminTimeTableUpdate(Resource):
             old_did = list(result[0].values())[0]
             
             # the timings sent in the request are added if not already there in the details table
-            qstr = f"""INSERT INTO DETAILS (start_at, end_at, date, year, sem_no)
+            qstr = f"""INSERT INTO details (start_at, end_at, date, year, sem_no)
             SELECT * FROM 
             (SELECT "{ data['start_at'] }", 
             "{ data['end_at'] }", 

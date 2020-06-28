@@ -44,6 +44,10 @@ class AdminGetTimeTable(Resource):
             """
 
             return query(qstr)
+        except IndexError:
+            return {
+                "message" : "No data present."
+            }, 400
 
         except Exception as e:
             return {
