@@ -18,6 +18,9 @@ from resources.admin_get_timetable import AdminGetTimeTable
 from resources.get_subjects import GetSubjects
 from resources.get_yearwise import GetYearwise
 from resources.get_active_exams import GetActiveExams
+from resources.qp_update import QpUpdate
+from resources.qp_delete import QpDelete
+from resources.get_uploads import GetUploads
 
 #authentication
 from resources.admin_login import AdminLogin
@@ -51,6 +54,9 @@ api.add_resource(AdminGetTimeTable, '/admin-get-timetable')
 api.add_resource(GetSubjects, '/get-subjects')
 api.add_resource(GetYearwise, '/get-yearwise')
 api.add_resource(GetActiveExams, '/get-active-exams')
+api.add_resource(QpUpdate, '/qp-update')
+api.add_resource(QpDelete, '/qp-delete')
+api.add_resource(GetUploads, '/get-uploads')
 
 #authentication endpoints
 api.add_resource(AdminLogin, '/admin-login')

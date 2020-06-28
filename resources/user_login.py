@@ -3,7 +3,6 @@ from db import query
 from flask_jwt_extended import create_access_token, jwt_required
 from werkzeug.security import safe_str_cmp
 
-
 userdb = 'User'
 
 #User class is used create a User object and also use class methods to

@@ -43,8 +43,6 @@ class AdminQpRequest(Resource):
         #parser.add_argument('select_status', type=int, required=False, default = 0)
         
         data = parser.parse_args()
-        #creating a tuple of values to be inserted because a formatted string is used
-        #here its useful to avoid SQL syntax errors while inserting BLOB value into table
 
         # a transaction is made, so not using query function from db module
         # we use connectToHost function from db module and commit explicitly
@@ -87,6 +85,8 @@ class AdminQpRequest(Resource):
             
             cursor.execute(qstr)
 
+            #creating a tuple of values to be inserted because a formatted string is used
+            #here its useful to avoid SQL syntax errors while inserting BLOB value into table
             vals_tuple = (req_no, convertToBlob(data['image']), 1 ) #set select status to 1
             #convertToBlob is used to convert base64 string to BLOB data
 
@@ -97,7 +97,13 @@ class AdminQpRequest(Resource):
 
             # delete the corresponding entry from active_exams if paper is uploaded.
             qstr = f""" DELETE FROM active_exams
-            WHERE request_no = { data['request_no'] }; """
+            WHERE request_no = { req_no }; """
+            cursor.execute(qstr)
+
+            # for deleting user info from submissions table
+            qstr = f""" DELETE FROM User.submissions
+            WHERE request_no = { req_no }; 
+            """
             cursor.execute(qstr)
 
 
