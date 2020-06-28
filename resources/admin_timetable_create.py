@@ -53,7 +53,11 @@ class AdminTimeTableCreate(Resource):
             #insert into details if not present already
             qstr = f""" 
             INSERT INTO details (start_at, end_at, date, year, sem_no)
-            SELECT * FROM (SELECT '{data['start_at']}', '{data['end_at']}', '{data['date']}', '{data['year']}' , '{data['sem_no']}') as temp
+            SELECT * FROM (SELECT '{data['start_at']}' as st, 
+            '{data['end_at']}' as en, 
+            '{data['date']}' as da, 
+            '{data['year']}' as ye , 
+            '{data['sem_no']}' as se) as temp
             WHERE NOT EXISTS (
                 SELECT d_id FROM details WHERE 
                 start_at = '{data['start_at']}' AND
@@ -85,11 +89,11 @@ class AdminTimeTableCreate(Resource):
             qstr = f""" 
             INSERT INTO timetable (b_id, d_id, s_code, exam_type, subtype) 
             SELECT * FROM (
-            SELECT '{data['b_id']}', 
-            '{did}', 
-            '{data['s_code']}', 
-            '{data['exam_type']}', 
-            '{data['subtype']}') AS TEMP
+            SELECT '{data['b_id']}' as b, 
+            '{did}' as d, 
+            '{data['s_code']}' as s, 
+            '{data['exam_type']}' as ex, 
+            '{data['subtype']}' as su) AS TEMP
             WHERE NOT EXISTS (
                 SELECT request_no FROM timetable WHERE 
                 b_id = '{data['b_id']}' AND 
@@ -131,14 +135,14 @@ class AdminTimeTableCreate(Resource):
             qstr = f"""
             INSERT INTO active_exams
             SELECT * FROM (
-            SELECT '{ reqno }', 
-            '{ bname }' , 
-            '{ sname }' , 
-            '{ data['exam_type'] }' , 
-            '{ data['subtype'] }' , 
-            '{ data['end_at'] }' , 
-            '{ data['date'] }' , 
-            '{ data['sem_no'] }' ) AS TEMP
+            SELECT '{ reqno }' as r, 
+            '{ bname }' as b, 
+            '{ sname }' as s, 
+            '{ data['exam_type'] }' as e, 
+            '{ data['subtype'] }' as su, 
+            '{ data['end_at'] }' as en, 
+            '{ data['date'] }' as d, 
+            '{ data['sem_no'] }' as se) AS TEMP
             WHERE NOT EXISTS (
                 SELECT request_no FROM active_exams WHERE 
                 branch_name = '{ bname }' AND 

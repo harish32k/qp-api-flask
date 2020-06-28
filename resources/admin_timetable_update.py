@@ -43,11 +43,11 @@ class AdminTimeTableUpdate(Resource):
             # the timings sent in the request are added if not already there in the details table
             qstr = f"""INSERT INTO details (start_at, end_at, date, year, sem_no)
             SELECT * FROM 
-            (SELECT "{ data['start_at'] }", 
-            "{ data['end_at'] }", 
-            "{ data['date'] }", 
-            "{ data['year'] }", 
-            "{ data['sem_no'] }") AS TEMP
+            (SELECT "{ data['start_at'] }" as s, 
+            "{ data['end_at'] }" as e, 
+            "{ data['date'] }" as d, 
+            "{ data['year'] }" as y, 
+            "{ data['sem_no'] }" as se) AS TEMP
 
             WHERE NOT EXISTS(
             SELECT d_id from details 

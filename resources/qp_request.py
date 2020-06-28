@@ -60,7 +60,7 @@ class QpRequest(Resource):
 
             qstr = f"""
             INSERT into User.submissions (r_id, request_no, uname)
-            SELECT * FROM (SELECT '{ insert_rid }', '{ data['request_no'] }', '{ data['uname'] }')
+            SELECT * FROM (SELECT '{ insert_rid }' as i, '{ data['request_no'] }' as r, '{ data['uname'] }' as u)
             AS TEMP
             WHERE NOT EXISTS(
                 SELECT r_id FROM User.submissions
