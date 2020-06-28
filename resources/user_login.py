@@ -3,6 +3,9 @@ from db import query
 from flask_jwt_extended import create_access_token, jwt_required
 from werkzeug.security import safe_str_cmp
 
+
+userdb = 'User'
+
 #User class is used create a User object and also use class methods to
 #execute queries and return a User object for it 
 class User():
@@ -14,7 +17,7 @@ class User():
     def getUserByUname(cls,uname):
         result=query(f"""SELECT uname,password FROM users WHERE uname='{uname}'""", 
         return_json=False, 
-        connect_db='User')
+        connect_db=userdb)
         
         if len(result)>0: return User(result[0]['uname'],result[0]['password'])
         return None

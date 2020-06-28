@@ -4,6 +4,8 @@ from flask_jwt_extended import create_access_token, jwt_required
 from werkzeug.security import safe_str_cmp
 import pymysql
 
+userdb = 'User'
+
 #UserRegister resource is defined for the user-register endpoint
 #UserRegister class is for the admin to interact with the user table.
 class UserRegister(Resource):
@@ -13,7 +15,7 @@ class UserRegister(Resource):
         parser.add_argument('uname', type=str, required=True, help="uname cannot be left blank!")
         parser.add_argument('password', type=str, required=True, help="password cannot be left blank!")
         parser.add_argument('rno', type=str, required=True, help="rno cannot be left blank!")
-        parser.add_argument('b_id', type=str, required=True, help="b_id cannot be left blank!")
+        parser.add_argument('branch_name', type=str, required=True, help="branch_name cannot be left blank!")
         parser.add_argument('sem_no', type=str, required=True, help="sem_no cannot be left blank!")
         data = parser.parse_args()
         
@@ -21,12 +23,12 @@ class UserRegister(Resource):
             qstr = f""" 
             SELECT uname from users where uname = "{ data['uname'] }";
             """
-            usersWithUname = query(qstr, return_json=False, connect_db='User')
+            usersWithUname = query(qstr, return_json=False, connect_db=userdb)
             
             qstr = f""" 
             SELECT uname from users where rno = "{ data['rno'] }";
             """
-            usersWithRoll = query(qstr, return_json=False, connect_db='User')
+            usersWithRoll = query(qstr, return_json=False, connect_db=userdb)
         
         except Exception as e:
             return {
@@ -47,11 +49,11 @@ class UserRegister(Resource):
         qstr = f""" INSERT INTO users values("{ data['uname'] }", 
         "{ data['password'] }", 
         "{ data['rno'] }", 
-        "{ data['b_id'] }", 
+        "{ data['branch_name'] }", 
         "{ data['sem_no'] }" ); """
 
         try:
-            query(qstr, connect_db="User")
+            query(qstr, connect_db=userdb)
         # except (pymysql.err.InternalError, pymysql.err.ProgrammingError, pymysql.err.IntegrityError) as e:
         #     return {
         #         "message" : "MySQL error: " + str(e)
