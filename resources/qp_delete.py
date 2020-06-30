@@ -2,6 +2,7 @@ from flask_restful import Resource, reqparse
 from db import connectToHost
 import base64
 import pymysql
+from flask_jwt_extended import jwt_required
 
 def convertToBlob(value):
     return base64.b64decode(value.encode('utf-8'))
@@ -9,6 +10,7 @@ def convertToBlob(value):
 
 class QpDelete(Resource):
 
+    @jwt_required
     def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument('request_no', type=int, required=True, help="request_no cannot be left blank!")

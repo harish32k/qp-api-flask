@@ -1,6 +1,7 @@
 from flask_restful import Resource, reqparse
 from db import query
 import pymysql
+from flask_jwt_extended import jwt_required
 
 """
 Using the resource in this module, admin can insert an image with select_status = 1.
@@ -9,7 +10,8 @@ The admin has to send just the request_no and the image.
 
 #GetYearwise class is for the users
 class GetYearwise(Resource):
-    
+
+    @jwt_required    
     def get(self):
         parser = reqparse.RequestParser()
         parser.add_argument('branch_name', type=str, help="branch_name cannot be left blank!")
