@@ -11,7 +11,7 @@ def convertToBlob(value):
 class QpRequest(Resource):
     
     # get method is used for displaying paper of a particular exam to the user.
-    @jwt_required
+    #@jwt_required
     def get(self):
         parser = reqparse.RequestParser()
         parser.add_argument('request_no', type=int, help="request_no cannot be left blank!")
@@ -27,7 +27,7 @@ class QpRequest(Resource):
 
     # post method is for the user to upload an image for an exam
     # the user provides the request_no, image(base64 string) and uname(username)
-    @jwt_required
+    #@jwt_required
     def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument('request_no', type=int, required=True, help="request_no cannot be left blank!")

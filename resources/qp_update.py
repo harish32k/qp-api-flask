@@ -10,7 +10,7 @@ def convertToBlob(value):
 # this resource is used by the user to update an image uploaded. 
 class QpUpdate(Resource):
 
-    @jwt_required
+    #@jwt_required
     def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument('request_no', type=int, required=True, help="request_no cannot be left blank!")
