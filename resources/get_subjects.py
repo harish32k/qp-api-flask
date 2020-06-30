@@ -12,7 +12,7 @@ The admin has to send just the request_no and the image.
 #GetSubjects class is for the users
 class GetSubjects(Resource):
     
-    @jwt_required
+    #@jwt_required
     def get(self):
         parser = reqparse.RequestParser()
         parser.add_argument('branch_name', type=str, help="branch_name cannot be left blank!")
