@@ -35,14 +35,16 @@ class QpDelete(Resource):
             request_no = "{ data['request_no'] }" AND 
             uname = "{ data['uname'] }" LIMIT 1;
             """
-            
+            print(qstr)
             cursor.execute(qstr)
             result = cursor.fetchall()
             insert_rid = list(result[0].values())[0]    
 
-            qstr = f""" DELETE FROM REQUESTS
+            qstr = f""" DELETE FROM requests
                     WHERE request_no = '{ data['request_no'] }' AND  
                     r_id = '{ insert_rid }';"""
+            
+            print(qstr)
 
 
             cursor.execute(qstr)
