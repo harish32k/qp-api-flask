@@ -37,17 +37,22 @@ class QpUpdate(Resource):
             
             cursor.execute(qstr)
             result = cursor.fetchall()
-            insert_rid = list(result[0].values())[0]    
+            insert_rid = list(result[0].values())[0]
+            print(data)
+            print(qstr)
+            print(insert_rid)    
 
             qstr = f""" UPDATE requests
                     SET image = (%s)
-                    WHERE request_no = '%s' AND  
-                    r_id = '%s';"""
+                    WHERE request_no = '{ data['request_no'] }' AND  
+                    r_id = '{ insert_rid }';"""
+
+            print(qstr)
 
 
             #creating a tuple of values to be inserted because a formatted string is used
             #here its useful to avoid SQL syntax errors while inserting BLOB value into table
-            vals_tuple = (convertToBlob(data['image']), data['request_no'], insert_rid)
+            vals_tuple = (convertToBlob(data['image']))
             #convertToBlob is used to convert base64 string to BLOB data
             cursor.execute(qstr, vals_tuple)
             
