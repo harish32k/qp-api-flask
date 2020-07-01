@@ -115,6 +115,17 @@ class AdminQpRequest(Resource):
             #close the cursor and connection
             cursor.close()
             connection.close()
+        except IndexError:
+            """
+            this is to handle tuple index error 
+            which is raised if no data could be retrieved and stored
+            where data is retrieved in this way
+            result = cursor.fetchall()
+            req_no = list(result[0].values())[0] 
+            """
+            return {
+                "message" : "Required data not present."
+            }, 400
         except (pymysql.err.InternalError, pymysql.err.ProgrammingError, pymysql.err.IntegrityError) as e:
             return {
                 "message" : "MySQL error: " + str(e)
