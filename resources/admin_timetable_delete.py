@@ -3,7 +3,7 @@ import pymysql
 from db import connectToHost
 from flask_jwt_extended import jwt_required
 
-#AdminTimeTable class is to interact with the Timetable table.
+# This resource is to delete the timetable (data altered in multiple tables depending on inputs)
 class AdminTimeTableDelete(Resource):
 
     @jwt_required
@@ -72,7 +72,6 @@ class AdminTimeTableDelete(Resource):
             return {
                 "message" : "There was an error connecting to the requests table while inserting." + str(e)
             }, 500
-        
         return {
             "message" : "Succesfully deleted."
         }, 200

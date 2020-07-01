@@ -4,10 +4,13 @@ from flask_jwt_extended import create_access_token, jwt_required
 from werkzeug.security import safe_str_cmp
 import pymysql
 
+# this parameter is given globally in this module so that the userdb is changed all over the module if 
+# changed at one place (here). userdb is set so that while testing locally, 
+# the local database could have userdb different from 'User'. 
+# In the database employed for this utility, userdb is 'User'
 userdb = 'User'
 
-#UserRegister resource is defined for the user-register endpoint
-#UserRegister class is for the admin to interact with the user table.
+# this resource is defined for the user to register
 class UserRegister(Resource):
 
     def post(self):
@@ -68,5 +71,5 @@ class UserRegister(Resource):
             }, 500
         
         return {
-            "message" : "Succesfully registered(inserted)"
+            "message" : "Succesfully registered."
         }, 200

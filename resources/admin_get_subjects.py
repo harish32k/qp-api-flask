@@ -10,7 +10,7 @@ This is done by selecting distinct request_no's from requests table
 for those rows where select_status = 0
 """
 
-#AdminGetSubjects class is to interact with the subject table.
+# This resource is for the admin to get all the subjects from the subject table.
 class AdminGetSubjects(Resource):
     
     #@jwt_required

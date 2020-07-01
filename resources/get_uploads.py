@@ -3,7 +3,7 @@ from db import query
 import pymysql
 from flask_jwt_extended import jwt_required
 
-#GetActiveExams class is for the user to get info about the entries in active_exams
+# this resource is for the user to get info about the uploads user made
 class GetUploads(Resource):
     
     @jwt_required

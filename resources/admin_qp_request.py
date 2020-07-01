@@ -10,9 +10,12 @@ def convertToBlob(value):
 """
 Using the resource in this module, admin can insert an image with select_status = 1.
 The admin has to send just the request_no and the image.
+All the other papers corresponding to the request_no get deleted 
+whether they have a select_status of 1 or not.
+The entries in the requests table are deleted for a request_no, admin uploaded image is insered into requests.
+Then active_exams and submissions table entries are deleted which have the request_no sent.
 """
 
-#AdminQpRequest class is for the admin to interact with the requests table.
 class AdminQpRequest(Resource):
     
     @jwt_required

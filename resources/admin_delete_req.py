@@ -11,7 +11,6 @@ other than the one with the same 'request_no' having a particular 'r_id'. After 
 for the undeleted entry with the r_id, select_status is set to 1 
 """
 
-#AdminDeleteReq class is to interact with the requests table.
 class AdminDeleteReq(Resource):
     
     @jwt_required

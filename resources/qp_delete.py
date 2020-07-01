@@ -7,7 +7,7 @@ from flask_jwt_extended import jwt_required
 def convertToBlob(value):
     return base64.b64decode(value.encode('utf-8'))
 
-
+# this resource is for the user to delete a question paper uploaded
 class QpDelete(Resource):
 
     #@jwt_required
@@ -30,6 +30,23 @@ class QpDelete(Resource):
             connection.begin()
             cursor = connection.cursor()
 
+            #check if any paper got approved before allowing to perform action
+            qstr = f"""
+            select count(request_no) from requests
+            where request_no = { data['request_no'] } and select_status = 1;
+            """
+
+            cursor.execute(qstr)
+            result = cursor.fetchall()
+            approved_count = list(result[0].values())[0]
+            
+            if approved_count > 0:
+                return {
+                    "message" : """Cannot delete. Admin accepted some paper already. 
+                    The paper you uploaded is either approved or got deleted."""
+                }, 400
+
+            #perform deletion if any paper did not get approved
             qstr = f"""
             SELECT r_id FROM User.submissions WHERE 
             request_no = "{ data['request_no'] }" AND 

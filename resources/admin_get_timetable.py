@@ -4,7 +4,7 @@ import pymysql
 from flask_jwt_extended import jwt_required
 
 
-# AdminGetTimeTable class is to retrieve timetable 
+# This resource is to retrieve timetable 
 # from b_id, sem_no, exam_type, subtype, s_code, year fields.
 class AdminGetTimeTable(Resource):
     

@@ -7,7 +7,7 @@ from flask_jwt_extended import jwt_required
 def convertToBlob(value):
     return base64.b64decode(value.encode('utf-8'))
 
-#QpRequest class is for the user to interact with the requests table.
+# this resource is for the user to upload a question paper
 class QpRequest(Resource):
     
     # get method is used for displaying paper of a particular exam to the user.
@@ -35,10 +35,6 @@ class QpRequest(Resource):
         parser.add_argument('uname', type=str, required=True, help="uname cannot be left blank!")
         data = parser.parse_args()
         
-        #creating a tuple of values to be inserted because a formatted string is used
-        #here its useful to avoid SQL syntax errors while inserting BLOB value into table
-        vals_tuple = (data['request_no'], convertToBlob(data['image']))
-        #convertToBlob is used to convert base64 string to BLOB data
 
 
         # a transaction is made, so not using query function from db module
@@ -51,6 +47,28 @@ class QpRequest(Resource):
             #start connection, create cursor and execute query from cursor
             connection.begin()
             cursor = connection.cursor()
+
+            #check if any paper got approved before allowing to perform action
+            qstr = f"""
+            select count(request_no) from requests
+            where request_no = { data['request_no'] } and select_status = 1;
+            """
+
+            cursor.execute(qstr)
+            result = cursor.fetchall()
+            approved_count = list(result[0].values())[0]
+            
+            if approved_count > 0:
+                return {
+                    "message" : "Cannot perform action. Admin accepted some other paper already."
+                }, 400
+
+            #perform upload if any paper did not get approved
+
+            #creating a tuple of values to be inserted because a formatted string is used
+            #here its useful to avoid SQL syntax errors while inserting BLOB value into table
+            vals_tuple = (data['request_no'], convertToBlob(data['image']))
+            #convertToBlob is used to convert base64 string to BLOB data
 
             qstr = f""" INSERT INTO requests (request_no, image)
                     values (%s, %s); """

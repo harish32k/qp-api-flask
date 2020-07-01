@@ -3,7 +3,6 @@ from flask_restful import Api
 from flask_jwt_extended import JWTManager
 
 #import resources
-from resources.qp_request import QpRequest
 from resources.admin_qp_request import AdminQpRequest
 from resources.admin_timetable_create import AdminTimeTableCreate
 from resources.admin_false_select import AdminFalseSelect
@@ -15,6 +14,7 @@ from resources.admin_get_subjects import AdminGetSubjects
 from resources.admin_get_timetable import AdminGetTimeTable
 
 #user part
+from resources.qp_request import QpRequest
 from resources.get_subjects import GetSubjects
 from resources.get_yearwise import GetYearwise
 from resources.get_active_exams import GetActiveExams
@@ -28,6 +28,7 @@ from resources.admin_login import AdminLogin
 from resources.user_login import UserLogin
 from resources.user_register import UserRegister
 
+# create flask app instance
 app = Flask(__name__)
 
 #set config for jwt
@@ -52,21 +53,22 @@ api.add_resource(AdminGetSubjects, '/admin-get-subjects') #retrieve all subjects
 api.add_resource(AdminGetTimeTable, '/admin-get-timetable') 
 
 #user endpoints
-api.add_resource(GetSubjects, '/get-subjects')
-api.add_resource(GetYearwise, '/get-yearwise')
-api.add_resource(GetActiveExams, '/get-active-exams')
-api.add_resource(QpUpdate, '/qp-update')
-api.add_resource(QpDelete, '/qp-delete')
-api.add_resource(GetUploads, '/get-uploads')
-api.add_resource(GetUnameInfo, '/get-uname-info')
+api.add_resource(GetSubjects, '/get-subjects') #get subjects list for a branch, sem, exam_type and subtype 
+api.add_resource(GetYearwise, '/get-yearwise') #get yearwise papers for a subject
+api.add_resource(GetActiveExams, '/get-active-exams') #get active exams
+api.add_resource(QpUpdate, '/qp-update') #update question paper
+api.add_resource(QpDelete, '/qp-delete') #delete question paper
+api.add_resource(GetUploads, '/get-uploads') #to get uploads
+api.add_resource(GetUnameInfo, '/get-uname-info') #get branch and sem_no of a uname
 
 #authentication endpoints
-api.add_resource(AdminLogin, '/admin-login')
-api.add_resource(UserLogin, '/user-login')
-api.add_resource(UserRegister, '/user-register')
+api.add_resource(AdminLogin, '/admin-login') #admin login
+api.add_resource(UserLogin, '/user-login') #user login
+api.add_resource(UserRegister, '/user-register') #user register
 
 jwt=JWTManager(app)
 
+#return an error response if JWT is missing
 @jwt.unauthorized_loader
 def missing_token_callback(error):
     return jsonify({
@@ -74,6 +76,7 @@ def missing_token_callback(error):
         "description": "Request does not contain an access token."
     }), 401
 
+#return an error response if JWT is invalid
 @jwt.invalid_token_loader
 def invalid_token_callback(error):
     return jsonify({
@@ -81,11 +84,12 @@ def invalid_token_callback(error):
         'message': 'Signature verification failed.'
     }), 401
 
-#a route to test if the flask app is working.
+#a welcome route to test if the flask app is working.
 @app.route('/')
 def home():
     return(f"""<h1 style="font-family: 'Palatino Linotype';">This is an API for the CBIT question paper management utility.</h1>
                 <p style="font-size:2em">Developed by Harish Akula</p>""")
 
+# set debug = False while deploying. debug = True is not safe in production environments
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)

@@ -3,6 +3,10 @@ from db import query
 from flask_jwt_extended import create_access_token, jwt_required
 from werkzeug.security import safe_str_cmp
 
+# this parameter is given globally in this module so that the userdb is changed all over the module if 
+# changed at one place (here). userdb is set so that while testing locally, 
+# the local database could have userdb different from 'User'. 
+# In the database employed for this utility, userdb is 'User'
 userdb = 'User'
 
 #User class is used create a User object and also use class methods to
@@ -21,7 +25,7 @@ class User():
         if len(result)>0: return User(result[0]['uname'],result[0]['password'])
         return None
 
-#UserLogin resource is defined for the login endpoint
+# This resource is defined for the user to login.
 class UserLogin(Resource):
     def post(self):
         parser = reqparse.RequestParser()

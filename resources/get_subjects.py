@@ -5,7 +5,8 @@ import pymysql
 from flask_jwt_extended import jwt_required
 
 
-#GetSubjects class is for the users
+# this resource is for the users to obtain subjects list
+# for a branch_name, sem_no, exam_type, subtype
 class GetSubjects(Resource):
     
     #@jwt_required
@@ -16,6 +17,7 @@ class GetSubjects(Resource):
         parser.add_argument('exam_type', type=str, help="exam_type cannot be left blank!")
         parser.add_argument('subtype', type=str, help="subtype cannot be left blank!")
         data = parser.parse_args()
+
         #create query string
         qstr = f""" 
         select DISTINCT subject_name

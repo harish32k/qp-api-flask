@@ -4,7 +4,7 @@ import db
 from db import connectToHost
 from flask_jwt_extended import jwt_required
 
-#AdminTimeTable class is to interact with the Timetable table.
+# This resource is for the admin to create a timetable (data inserted in multiple tables based on inputs)
 class AdminTimeTableCreate(Resource):
     
     # @jwt_required

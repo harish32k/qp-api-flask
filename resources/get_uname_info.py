@@ -5,7 +5,7 @@ import pymysql
 from flask_jwt_extended import jwt_required
 
 
-#GetUnameInfo class is to obtain th branch_name and sem_no for a user of uname
+# this resource is to obtain th branch_name and sem_no for a user of uname
 class GetUnameInfo(Resource):
     
     @jwt_required

@@ -3,7 +3,8 @@ import pymysql
 from db import connectToHost
 from flask_jwt_extended import jwt_required
 
-#AdminTimeTable class is to interact with the Timetable table.
+# This resource is for the admin to update timetable (data updated in multiple tables - 
+# timetable, details, active_exams depending on inputs)
 class AdminTimeTableUpdate(Resource):
 
     @jwt_required
@@ -129,8 +130,6 @@ class AdminTimeTableUpdate(Resource):
             return {
                 "message" : "There was an error connecting to the requests table while inserting." + str(e)
             }, 500
-        
-        
         return {
             "message" : "Succesfully updated."
         }, 200

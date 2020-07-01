@@ -16,7 +16,7 @@ class Admin():
         if len(result)>0: return Admin(result[0]['uname'],result[0]['password'])
         return None
 
-#AdminLogin resource is defined for the login endpoint
+# This resource is for the admin to login
 class AdminLogin(Resource):
     def post(self):
         parser = reqparse.RequestParser()
