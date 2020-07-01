@@ -38,7 +38,7 @@ class QpUpdate(Resource):
             cursor.execute(qstr)
             result = cursor.fetchall()
             insert_rid = list(result[0].values())[0]
-            print(data)
+            #print(data)
             print(qstr)
             print(insert_rid)    
 
