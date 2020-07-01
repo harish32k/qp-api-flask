@@ -8,7 +8,7 @@ from flask_jwt_extended import jwt_required
 #GetUnameInfo class is to obtain th branch_name and sem_no for a user of uname
 class GetUnameInfo(Resource):
     
-    #@jwt_required
+    @jwt_required
     def get(self):
         parser = reqparse.RequestParser()
         parser.add_argument('uname', type=str, help="uname cannot be left blank!")

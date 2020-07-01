@@ -21,6 +21,7 @@ from resources.get_active_exams import GetActiveExams
 from resources.qp_update import QpUpdate
 from resources.qp_delete import QpDelete
 from resources.get_uploads import GetUploads
+from resources.get_uname_info import GetUnameInfo
 
 #authentication
 from resources.admin_login import AdminLogin
@@ -57,6 +58,7 @@ api.add_resource(GetActiveExams, '/get-active-exams')
 api.add_resource(QpUpdate, '/qp-update')
 api.add_resource(QpDelete, '/qp-delete')
 api.add_resource(GetUploads, '/get-uploads')
+api.add_resource(GetUnameInfo, '/get-uname-info')
 
 #authentication endpoints
 api.add_resource(AdminLogin, '/admin-login')
