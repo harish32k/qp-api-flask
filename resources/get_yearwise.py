@@ -7,7 +7,7 @@ from flask_jwt_extended import jwt_required
 # this resource is for the users to get papers for a subject yearwise
 class GetYearwise(Resource):
 
-    @jwt_required    
+    #@jwt_required    
     def get(self):
         parser = reqparse.RequestParser()
         parser.add_argument('branch_name', type=str, help="branch_name cannot be left blank!")
