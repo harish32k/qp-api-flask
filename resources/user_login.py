@@ -12,17 +12,23 @@ userdb = 'User'
 #User class is used create a User object and also use class methods to
 #execute queries and return a User object for it 
 class User():
-    def __init__(self,uname,password):
-        self.uname=uname
-        self.password=password
+    def __init__(self, uname, password, rno, branch_name, sem_no):
+        self.uname = uname
+        self.password = password
+
+        #testing features
+        self.rno = rno
+        self.branch_name = branch_name
+        self.sem_no = sem_no
 
     @classmethod
     def getUserByUname(cls,uname):
-        result=query(f"""SELECT uname,password FROM users WHERE uname='{uname}'""", 
+        result=query(f"""SELECT uname,password,rno,branch_name,sem_no FROM users WHERE uname='{uname}'""", 
         return_json=False, 
         connect_db=userdb)
         
-        if len(result)>0: return User(result[0]['uname'],result[0]['password'])
+        if len(result)>0: return User(result[0]['uname'],result[0]['password'],
+        result[0]['rno'],result[0]['branch_name'],result[0]['sem_no'])
         return None
 
 # This resource is defined for the user to login.
@@ -37,5 +43,9 @@ class UserLogin(Resource):
         user=User.getUserByUname(data['uname'])
         if User and safe_str_cmp(user.password,data['password']):
             access_token=create_access_token(identity=user.uname,expires_delta=False)
-            return {'access_token':access_token},200
+            return {'access_token':access_token,
+            'uname':user.uname,
+            'rno':user.rno,
+            'branch_name':user.branch_name,
+            'sem_no':user.sem_no},200
         return {"message":"Invalid Credentials!"}, 401
