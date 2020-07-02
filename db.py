@@ -57,6 +57,9 @@ def getBase64Str(value):
 # encode function converts decimals to strings 
 # and also converts BLOB files 
 # which are in 'bytes' datatype to a base64 encoded string
+
+# encode time and date values so that they are 
+# readable and user friendly
 def encode(data):
     #iterate through rows
     for row in data:
@@ -66,6 +69,8 @@ def encode(data):
             elif isinstance(value, bytes):
                 row[key] = getBase64Str(value)
             elif isinstance(value,datetime.timedelta):
+                row[key] = str(value)
+            elif isinstance(value,datetime.date):
                 row[key] = str(value)
                 
     return data

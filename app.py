@@ -92,4 +92,4 @@ def home():
 
 # set debug = False while deploying. debug = True is not safe in production environments
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
